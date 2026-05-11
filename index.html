@@ -1,178 +1,294 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>계산기</title>
+import { useState } from 'react'
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+export default function StudyGuidePage() {
+  const [page, setPage] = useState('calculator')
+
+  const intervals = [1, 2, 4, 7, 10, 17, 21, 28, 30]
+  const today = new Date()
+
+  function formatDate(date) {
+    return date.toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      weekday: 'short'
+    })
+  }
+
+  const mathSections = [
+    {
+      title: '수학 개념서를 읽는 법',
+      items: [
+        '각 개념이 유도된 수학적인 설명을 차분히 읽어본다.',
+        '공식을 외우기보다 줄글을 이해하고 자신의 언어로 정리한다.',
+        '예제는 반드시 풀이를 가리고 혼자 풀어본다.',
+        '이해가 안 되는 부분은 표시 후 복습한다.'
+      ]
+    },
+    {
+      title: '수능 수학 1등급 로드맵',
+      items: [
+        '기본 개념 학습',
+        '기출 개념 학습',
+        '기출문제 풀이',
+        'N제 풀이',
+        '실전 모의고사 풀이'
+      ]
+    },
+    {
+      title: '핵심 문장',
+      quotes: [
+        '수능의 모든 방향성은 지금까지 출제된 기출에 있다.',
+        '인강의 핵심은 정리된 것을 내 것으로 만드는 것이다.',
+        '수학은 암기 과목이다.',
+        '기출문제는 맞추는 대상이 아니라 더 좋은 풀이를 배우는 대상이다.'
+      ]
+    },
+    {
+      title: '인강을 듣는 방법',
+      items: [
+        '문제를 먼저 풀고 시간을 잰다.',
+        '나의 풀이와 강사의 풀이를 비교한다.',
+        '강의를 완전히 이해한 후 필기한다.',
+        '강의를 나눠 듣지 않는다.',
+        '당일 복습을 반드시 한다.'
+      ]
+    },
+    {
+      title: '복습법',
+      items: [
+        '백지복습: 배운 내용을 아무것도 보지 않고 직접 써내려간다.'
+      ]
+    },
+    {
+      title: '일력 복습',
+      items: [
+        '날짜별로 학습 내용을 기록하고 체계적으로 복습한다.',
+        '풀이를 가리고 다시 푼다.',
+        '범주화 맵을 만들어 조건별 풀이 코드를 정리한다.'
+      ]
     }
+  ]
 
-    body {
-      background: #f3f4f6;
-      min-height: 100vh;
-      padding: 16px;
-    }
+  const readingTips = [
+    '기억해야 한다는 강박 내려놓기',
+    '천천히 읽기',
+    '다시 읽기',
+    '지문에 표시하지 않기',
+    '대화하듯 읽기',
+    '추상어 감지하기',
+    '배경지식 쌓기',
+    '이미지화 하기',
+    '부연 설명 만들기',
+    '문장 재구성하기',
+    '어휘의 함축적 의미 파악하기',
+    '제시된 개념 인지하기',
+    '특수한 상황을 나타내는 단어 캐치하기',
+    '애매하면 멈추기'
+  ]
 
-    .container {
-      width: 100%;
-      max-width: 520px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 24px;
-      padding: 24px 18px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-    }
+  return (
+    <div className="min-h-screen bg-gray-100 text-black px-5 py-8">
+      <div className="max-w-5xl mx-auto flex flex-wrap justify-center gap-4 mb-8">
+        <button
+          onClick={() => setPage('calculator')}
+          className={`px-6 py-3 rounded-2xl font-bold border ${
+            page === 'calculator'
+              ? 'bg-blue-600 text-white border-blue-600'
+              : 'bg-white border-gray-300'
+          }`}
+        >
+          복습 계산기
+        </button>
 
-    h1 {
-      text-align: center;
-      margin-bottom: 8px;
-      font-size: 28px;
-    }
+        <button
+          onClick={() => setPage('math')}
+          className={`px-6 py-3 rounded-2xl font-bold border ${
+            page === 'math'
+              ? 'bg-blue-600 text-white border-blue-600'
+              : 'bg-white border-gray-300'
+          }`}
+        >
+          수학 가이드
+        </button>
 
-    .subtitle {
-      text-align: center;
-      color: #666;
-      margin-bottom: 24px;
-      font-size: 14px;
-      line-height: 1.5;
-    }
+        <button
+          onClick={() => setPage('korean')}
+          className={`px-6 py-3 rounded-2xl font-bold border ${
+            page === 'korean'
+              ? 'bg-blue-600 text-white border-blue-600'
+              : 'bg-white border-gray-300'
+          }`}
+        >
+          국어 공부법
+        </button>
+      </div>
 
-    .today-box {
-      background: #f9fafb;
-      padding: 16px;
-      border-radius: 18px;
-      margin-bottom: 20px;
-    }
+      {page === 'calculator' && (
+        <div className="max-w-2xl mx-auto bg-white rounded-3xl border border-gray-200 shadow-xl p-8">
+          <h1 className="text-4xl font-black text-center mb-3">
+            복습 계산기
+          </h1>
 
-    .today-label {
-      color: #666;
-      font-size: 13px;
-      margin-bottom: 6px;
-    }
+          <p className="text-center text-gray-500 mb-8">
+            오늘 날짜 기준 복습 날짜
+          </p>
 
-    .today-date {
-      font-size: 20px;
-      font-weight: bold;
-      line-height: 1.4;
-      word-break: keep-all;
-    }
+          <div className="bg-gray-100 rounded-2xl p-5 mb-6">
+            <div className="text-sm text-gray-500 mb-2">오늘 날짜</div>
+            <div className="text-2xl font-bold">{formatDate(today)}</div>
+          </div>
 
-    .review-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+          <div className="space-y-4">
+            {intervals.map((days, idx) => {
+              const target = new Date(today)
+              target.setDate(today.getDate() - days)
 
-    .review-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      padding: 16px;
-      background: white;
-    }
+              return (
+                <div
+                  key={idx}
+                  className="flex items-center justify-between bg-white border border-gray-200 rounded-2xl p-5"
+                >
+                  <div className="font-bold text-lg">{days}일 전</div>
+                  <div className="font-semibold text-gray-700">
+                    {formatDate(target)}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
 
-    .days {
-      font-size: 16px;
-      font-weight: bold;
-      flex-shrink: 0;
-    }
+      {page === 'math' && (
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-10">
+            <h1 className="text-5xl font-black mb-4">
+              수능 수학 공부 가이드
+            </h1>
 
-    .date {
-      color: #444;
-      font-weight: 600;
-      text-align: right;
-      font-size: 14px;
-      line-height: 1.4;
-    }
+            <p className="text-lg text-gray-600">
+              개념 · 기출 · 복습 전략 정리
+            </p>
+          </div>
 
-    @media (max-width: 480px) {
-      body {
-        padding: 10px;
-      }
+          <div className="grid md:grid-cols-2 gap-6">
+            {mathSections.map((section, idx) => (
+              <div
+                key={idx}
+                className="bg-white rounded-3xl border border-gray-200 shadow-xl p-6"
+              >
+                <h2 className="text-2xl font-black text-blue-700 mb-5">
+                  {section.title}
+                </h2>
 
-      .container {
-        padding: 18px 14px;
-        border-radius: 18px;
-      }
+                {section.quotes && (
+                  <div className="space-y-3">
+                    {section.quotes.map((quote, qIdx) => (
+                      <div
+                        key={qIdx}
+                        className="bg-gray-100 rounded-2xl p-4 italic"
+                      >
+                        “{quote}”
+                      </div>
+                    ))}
+                  </div>
+                )}
 
-      h1 {
-        font-size: 24px;
-      }
+                {section.items && (
+                  <div className="space-y-3">
+                    {section.items.map((item, i) => (
+                      <div
+                        key={i}
+                        className="bg-gray-100 rounded-2xl p-4 flex gap-3"
+                      >
+                        <span className="font-bold text-blue-600">
+                          {i + 1}
+                        </span>
 
-      .review-item {
-        padding: 14px;
-      }
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
-      .days {
-        font-size: 15px;
-      }
+      {page === 'korean' && (
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-10">
+            <h1 className="text-5xl font-black mb-4">
+              국어 공부법
+            </h1>
 
-      .date {
-        font-size: 13px;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>계산기</h1>
-    <p class="subtitle">오늘 날짜 기준 복습 날짜 계산</p>
+            <p className="text-lg text-gray-600">
+              독서 · 문학 공부 전략
+            </p>
+          </div>
 
-    <div class="today-box">
-      <div class="today-label">오늘 날짜</div>
-      <div class="today-date" id="todayDate"></div>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-white rounded-3xl border border-gray-200 shadow-xl p-6">
+              <h2 className="text-3xl font-black text-blue-700 mb-6">
+                독서
+              </h2>
+
+              <div className="space-y-3">
+                {readingTips.map((tip, idx) => (
+                  <div
+                    key={idx}
+                    className="bg-gray-100 rounded-2xl p-4 flex gap-3"
+                  >
+                    <span className="font-bold text-blue-600">
+                      {idx + 1}
+                    </span>
+
+                    <span>{tip}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-6 bg-blue-50 border border-blue-200 rounded-2xl p-5 font-semibold text-blue-900">
+                결론 : 글을 이해하는 것이 가장 중요하다.
+              </div>
+            </div>
+
+            <div className="bg-white rounded-3xl border border-gray-200 shadow-xl p-6">
+              <h2 className="text-3xl font-black text-blue-700 mb-6">
+                문학
+              </h2>
+
+              <div className="space-y-4">
+                <div className="bg-gray-100 rounded-2xl p-5">
+                  <h3 className="font-bold text-lg mb-2">
+                    내면세계
+                  </h3>
+
+                  <p>
+                    인물과 화자의 정서를 따라가며 읽는다.
+                  </p>
+                </div>
+
+                <div className="bg-gray-100 rounded-2xl p-5">
+                  <h3 className="font-bold text-lg mb-2">
+                    이미지화
+                  </h3>
+
+                  <p>
+                    작품을 영화 장면처럼 상상하면서 읽는다.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-6 bg-blue-50 border border-blue-200 rounded-2xl p-5 font-semibold text-blue-900">
+                결론 : 감상하는 것이 가장 중요하다.
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-
-    <div class="review-list" id="reviewList"></div>
-  </div>
-
-  <script>
-    const intervals = [1, 2, 4, 7, 10, 17, 21, 28, 30];
-
-    const today = new Date();
-
-    function formatDate(date) {
-      return date.toLocaleDateString('ko-KR', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        weekday: 'short'
-      });
-    }
-
-    document.getElementById('todayDate').textContent = formatDate(today);
-
-    const reviewList = document.getElementById('reviewList');
-
-    intervals.forEach(days => {
-      const target = new Date(today);
-      target.setDate(today.getDate() - days);
-
-      const item = document.createElement('div');
-      item.className = 'review-item';
-
-      const daysDiv = document.createElement('div');
-      daysDiv.className = 'days';
-      daysDiv.textContent = `${days}일 전`;
-
-      const dateDiv = document.createElement('div');
-      dateDiv.className = 'date';
-      dateDiv.textContent = formatDate(target);
-
-      item.appendChild(daysDiv);
-      item.appendChild(dateDiv);
-
-      reviewList.appendChild(item);
-    });
-  </script>
-</body>
-</html>
+  )
+}
