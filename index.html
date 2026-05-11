@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>계산기</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: #f3f4f6;
+      min-height: 100vh;
+      padding: 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 24px;
+      padding: 24px 18px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 8px;
+      font-size: 28px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 24px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .today-box {
+      background: #f9fafb;
+      padding: 16px;
+      border-radius: 18px;
+      margin-bottom: 20px;
+    }
+
+    .today-label {
+      color: #666;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .today-date {
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 1.4;
+      word-break: keep-all;
+    }
+
+    .review-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .review-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 16px;
+      background: white;
+    }
+
+    .days {
+      font-size: 16px;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .date {
+      color: #444;
+      font-weight: 600;
+      text-align: right;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        padding: 18px 14px;
+        border-radius: 18px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .review-item {
+        padding: 14px;
+      }
+
+      .days {
+        font-size: 15px;
+      }
+
+      .date {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>계산기</h1>
+    <p class="subtitle">오늘 날짜 기준 복습 날짜 계산</p>
+
+    <div class="today-box">
+      <div class="today-label">오늘 날짜</div>
+      <div class="today-date" id="todayDate"></div>
+    </div>
+
+    <div class="review-list" id="reviewList"></div>
+  </div>
+
+  <script>
+    const intervals = [1, 2, 4, 7, 10, 17, 21, 28, 30];
+
+    const today = new Date();
+
+    function formatDate(date) {
+      return date.toLocaleDateString('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        weekday: 'short'
+      });
+    }
+
+    document.getElementById('todayDate').textContent = formatDate(today);
+
+    const reviewList = document.getElementById('reviewList');
+
+    intervals.forEach(days => {
+      const target = new Date(today);
+      target.setDate(today.getDate() - days);
+
+      const item = document.createElement('div');
+      item.className = 'review-item';
+
+      const daysDiv = document.createElement('div');
+      daysDiv.className = 'days';
+      daysDiv.textContent = `${days}일 전`;
+
+      const dateDiv = document.createElement('div');
+      dateDiv.className = 'date';
+      dateDiv.textContent = formatDate(target);
+
+      item.appendChild(daysDiv);
+      item.appendChild(dateDiv);
+
+      reviewList.appendChild(item);
+    });
+  </script>
+</body>
+</html>
