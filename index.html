@@ -3,478 +3,124 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>수능 공부 가이드</title>
-
+  <title>에빙하우스 복습 플래너</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
   <style>
-    body {
-      font-family: Pretendard, sans-serif;
-    }
-
-    .page {
-      display: none;
-    }
-
-    .page.active {
-      display: block;
-    }
-
-    .tab.active {
-      background-color: #2563eb;
-      color: white;
-      border-color: #2563eb;
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+    body { 
+      font-family: Pretendard, sans-serif; 
+      background-color: #f3f4f6;
     }
   </style>
 </head>
 
-<body class="bg-gray-100 text-black min-h-screen p-5">
+<body class="text-black min-h-screen flex items-center justify-center p-5">
 
-  <div class="max-w-6xl mx-auto">
-
-    <!-- 메뉴 -->
-    <div class="flex flex-wrap justify-center gap-4 mb-8">
-
-      <button
-        class="tab active px-6 py-3 rounded-2xl font-bold border bg-white"
-        onclick="showPage('calculator', this)"
-      >
+  <div class="max-w-2xl w-full bg-white rounded-[2.5rem] border border-gray-200 shadow-2xl p-8 md:p-12">
+    
+    <div class="text-center mb-10">
+      <h1 class="text-4xl font-black text-blue-600 mb-3 tracking-tight">
         복습 계산기
-      </button>
-
-      <button
-        class="tab px-6 py-3 rounded-2xl font-bold border bg-white"
-        onclick="showPage('math', this)"
-      >
-        수학 가이드
-      </button>
-
-      <button
-        class="tab px-6 py-3 rounded-2xl font-bold border bg-white"
-        onclick="showPage('korean', this)"
-      >
-        국어 공부법
-      </button>
-
+      </h1>
+      <p class="text-gray-500 font-medium">
+        망각곡선을 이기는 가장 과학적인 복습 주기
+      </p>
     </div>
 
-    <!-- 복습 계산기 -->
-    <div id="calculator" class="page active">
-
-      <div class="max-w-2xl mx-auto bg-white rounded-3xl border border-gray-200 shadow-xl p-8">
-
-        <h1 class="text-4xl font-black text-center mb-3">
-          복습 계산기
-        </h1>
-
-        <p class="text-center text-gray-500 mb-8">
-          오늘 날짜 기준 복습 날짜
-        </p>
-
-        <div class="bg-gray-100 rounded-2xl p-5 mb-6">
-
-          <div class="text-sm text-gray-500 mb-2">
-            오늘 날짜
-          </div>
-
-          <div id="todayDate" class="text-2xl font-bold"></div>
-
+    <div class="bg-blue-50 border border-blue-100 rounded-3xl p-6 mb-10 shadow-sm">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div>
+          <div class="text-sm text-blue-600 font-bold mb-1">복습 기준일 설정</div>
+          <div id="todayDate" class="text-2xl font-black text-gray-800"></div>
         </div>
-
-        <div id="reviewList" class="space-y-4"></div>
-
+        <div class="relative w-full md:w-auto">
+          <input 
+            type="date" 
+            id="datePicker" 
+            class="w-full md:w-auto px-4 py-3 bg-white border-2 border-blue-200 rounded-2xl font-bold text-gray-700 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all cursor-pointer"
+          >
+        </div>
       </div>
-
     </div>
 
-    <!-- 수학 -->
-    <div id="math" class="page">
-
-      <div class="text-center mb-10">
-
-        <h1 class="text-5xl font-black mb-4">
-          수능 수학 공부 가이드
-        </h1>
-
-        <p class="text-lg text-gray-600">
-          개념 · 기출 · 복습 전략 정리
-        </p>
-
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-6">
-
-        <!-- 개념서 -->
-        <div class="bg-white rounded-3xl border border-gray-200 shadow-xl p-6">
-
-          <h2 class="text-2xl font-black text-blue-700 mb-5">
-            수학 개념서를 읽는 법
-          </h2>
-
-          <div class="space-y-3">
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              1. 각 개념이 유도된 수학적인 설명을 차분히 읽어본다.
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              2. 공식을 외우기보다 줄글을 이해하고 자신의 언어로 정리한다.
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              3. 예제는 반드시 풀이를 가리고 혼자 풀어본다.
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              4. 이해가 안 되는 부분은 표시 후 복습한다.
-            </div>
-
-          </div>
-
+    <div class="space-y-4">
+      <h2 class="text-lg font-bold text-gray-700 ml-1 mb-2">📅 오늘 복습해야 할 학습일</h2>
+      <div id="reviewList" class="space-y-3">
         </div>
-
-        <!-- 로드맵 -->
-        <div class="bg-white rounded-3xl border border-gray-200 shadow-xl p-6">
-
-          <h2 class="text-2xl font-black text-blue-700 mb-5">
-            수능 수학 1등급 로드맵
-          </h2>
-
-          <div class="space-y-3">
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              1. 기본 개념 학습
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              2. 기출 개념 학습
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              3. 기출문제 풀이
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              4. N제 풀이
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              5. 실전 모의고사 풀이
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- 핵심 문장 -->
-        <div class="bg-white rounded-3xl border border-gray-200 shadow-xl p-6">
-
-          <h2 class="text-2xl font-black text-blue-700 mb-5">
-            핵심 문장
-          </h2>
-
-          <div class="space-y-3">
-
-            <div class="bg-gray-100 rounded-2xl p-4 italic">
-              “수능의 모든 방향성은 지금까지 출제된 기출에 있다.”
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4 italic">
-              “인강의 핵심은 정리된 것을 내 것으로 만드는 것이다.”
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4 italic">
-              “수학은 암기 과목이다.”
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4 italic">
-              “기출문제는 맞추는 대상이 아니라 더 좋은 풀이를 배우는 대상이다.”
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- 인강 -->
-        <div class="bg-white rounded-3xl border border-gray-200 shadow-xl p-6">
-
-          <h2 class="text-2xl font-black text-blue-700 mb-5">
-            인강을 듣는 방법
-          </h2>
-
-          <div class="space-y-3">
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              1. 문제를 먼저 풀고 시간을 잰다.
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              2. 나의 풀이와 강사의 풀이를 비교한다.
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              3. 강의를 완전히 이해한 후 필기한다.
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              4. 강의를 나눠 듣지 않는다.
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              5. 당일 복습을 반드시 한다.
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- 복습 -->
-        <div class="bg-white rounded-3xl border border-gray-200 shadow-xl p-6">
-
-          <h2 class="text-2xl font-black text-blue-700 mb-5">
-            복습법
-          </h2>
-
-          <div class="space-y-3">
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              1. 백지복습 : 배운 내용을 아무것도 보지 않고 직접 써내려간다.
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- 일력 -->
-        <div class="bg-white rounded-3xl border border-gray-200 shadow-xl p-6">
-
-          <h2 class="text-2xl font-black text-blue-700 mb-5">
-            일력 복습
-          </h2>
-
-          <div class="space-y-3">
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              1. 날짜별로 학습 내용을 기록하고 체계적으로 복습한다.
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              2. 풀이를 가리고 다시 푼다.
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              3. 범주화 맵을 만들어 조건별 풀이 코드를 정리한다.
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- 모고 -->
-        <div class="bg-white rounded-3xl border border-gray-200 shadow-xl p-6">
-
-          <h2 class="text-2xl font-black text-blue-700 mb-5">
-            실전 모의고사 전략
-          </h2>
-
-          <div class="space-y-3">
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              1. 실전보다 5분 적게 설정하고 푼다.
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              2. 쉬운 문제부터 해결한다.
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              3. 2분 안에 방향성이 안 보이면 넘어간다.
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              4. 시험 후 반드시 분석과 피드백을 진행한다.
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- N제 -->
-        <div class="bg-white rounded-3xl border border-gray-200 shadow-xl p-6">
-
-          <h2 class="text-2xl font-black text-blue-700 mb-5">
-            N제와 실모
-          </h2>
-
-          <div class="space-y-3">
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              1. N제와 실모는 병행한다.
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              2. 모고가 아닌 날에는 N제를 푼다.
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              3. 기출 개념과 연결하며 학습한다.
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-4">
-              4. 10월 말까지 마무리한다.
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
     </div>
 
-    <!-- 국어 -->
-    <div id="korean" class="page">
-
-      <div class="text-center mb-10">
-
-        <h1 class="text-5xl font-black mb-4">
-          국어 공부법
-        </h1>
-
-        <p class="text-lg text-gray-600">
-          독서 · 문학 공부 전략
-        </p>
-
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-6">
-
-        <!-- 독서 -->
-        <div class="bg-white rounded-3xl border border-gray-200 shadow-xl p-6">
-
-          <h2 class="text-3xl font-black text-blue-700 mb-6">
-            독서
-          </h2>
-
-          <div class="space-y-3">
-
-            <div class="bg-gray-100 rounded-2xl p-4">1. 기억해야 한다는 강박 내려놓기</div>
-            <div class="bg-gray-100 rounded-2xl p-4">2. 천천히 읽기</div>
-            <div class="bg-gray-100 rounded-2xl p-4">3. 다시 읽기</div>
-            <div class="bg-gray-100 rounded-2xl p-4">4. 지문에 표시하지 않기</div>
-            <div class="bg-gray-100 rounded-2xl p-4">5. 대화하듯 읽기</div>
-            <div class="bg-gray-100 rounded-2xl p-4">6. 추상어 감지하기</div>
-            <div class="bg-gray-100 rounded-2xl p-4">7. 배경지식 쌓기</div>
-            <div class="bg-gray-100 rounded-2xl p-4">8. 이미지화 하기</div>
-            <div class="bg-gray-100 rounded-2xl p-4">9. 부연 설명 만들기</div>
-            <div class="bg-gray-100 rounded-2xl p-4">10. 문장 재구성하기</div>
-            <div class="bg-gray-100 rounded-2xl p-4">11. 어휘의 함축적 의미 파악하기</div>
-            <div class="bg-gray-100 rounded-2xl p-4">12. 제시된 개념 인지하기</div>
-            <div class="bg-gray-100 rounded-2xl p-4">13. 특수한 상황 단어 캐치하기</div>
-            <div class="bg-gray-100 rounded-2xl p-4">14. 애매하면 멈추기</div>
-
-          </div>
-
-          <div class="mt-6 bg-blue-50 border border-blue-200 rounded-2xl p-5 font-semibold text-blue-900">
-            결론 : 글을 이해하는 것이 가장 중요하다.
-          </div>
-
-        </div>
-
-        <!-- 문학 -->
-        <div class="bg-white rounded-3xl border border-gray-200 shadow-xl p-6">
-
-          <h2 class="text-3xl font-black text-blue-700 mb-6">
-            문학
-          </h2>
-
-          <div class="space-y-4">
-
-            <div class="bg-gray-100 rounded-2xl p-5">
-
-              <h3 class="font-bold text-lg mb-2">
-                내면세계
-              </h3>
-
-              <p>
-               인물과 화자의 정서를 따라가며 읽는다.
-              </p>
-
-            </div>
-
-            <div class="bg-gray-100 rounded-2xl p-5">
-
-              <h3 class="font-bold text-lg mb-2">
-                이미지화
-              </h3>
-
-              <p>
-                작품을 영화 장면처럼 상상하면서 읽는다.
-              </p>
-
-            </div>
-
-          </div>
-
-          <div class="mt-6 bg-blue-50 border border-blue-200 rounded-2xl p-5 font-semibold text-blue-900">
-            결론 : 감상하는 것이 가장 중요하다.
-          </div>
-
-        </div>
-
-      </div>
-
+    <div class="mt-10 pt-6 border-t border-gray-100 text-center">
+      <p class="text-sm text-gray-400">
+        위 날짜에 학습했던 내용을 오늘 복습하면 기억 효율이 극대화됩니다.
+      </p>
     </div>
 
   </div>
 
   <script>
-    function showPage(pageId, button) {
+    // 복습 주기 설정 (1일, 2일, 3일, 7일, 14일, 30일)
+    const intervals = [
+      { step: 1, days: 1, color: 'text-blue-600' },
+      { step: 2, days: 2, color: 'text-indigo-600' },
+      { step: 3, days: 3, color: 'text-violet-600' },
+      { step: 4, days: 7, color: 'text-purple-600' },
+      { step: 5, days: 14, color: 'text-fuchsia-600' },
+      { step: 6, days: 30, color: 'text-pink-600' }
+    ];
 
-      document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active')
-      })
+    const datePicker = document.getElementById('datePicker');
+    const todayDisplay = document.getElementById('todayDate');
+    const reviewList = document.getElementById('reviewList');
 
-      document.getElementById(pageId).classList.add('active')
-
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.classList.remove('active')
-      })
-
-      button.classList.add('active')
-    }
-
-    const intervals = [1, 2, 4, 7, 10, 17, 21, 28, 30]
-    const today = new Date()
+    // 초기 날짜 설정 (사용자 로컬 시간 기준)
+    const now = new Date();
+    const offset = now.getTimezoneOffset() * 60000;
+    const localDate = new Date(now - offset).toISOString().split('T')[0];
+    datePicker.value = localDate;
 
     function formatDate(date) {
       return date.toLocaleDateString('ko-KR', {
         year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
+        month: 'long',
+        day: 'numeric',
         weekday: 'short'
-      })
+      });
     }
 
-    document.getElementById('todayDate').innerText = formatDate(today)
+    function updateReviewDates() {
+      const baseDate = new Date(datePicker.value);
+      todayDisplay.innerText = formatDate(baseDate);
+      reviewList.innerHTML = '';
 
-    const reviewList = document.getElementById('reviewList')
+      intervals.forEach(item => {
+        const target = new Date(baseDate);
+        target.setDate(baseDate.getDate() - item.days);
 
-    intervals.forEach(days => {
-
-      const target = new Date(today)
-      target.setDate(today.getDate() - days)
-
-      reviewList.innerHTML += `
-        <div class="flex items-center justify-between bg-white border border-gray-200 rounded-2xl p-5">
-          <div class="font-bold text-lg">${days}일 전</div>
-          <div class="font-semibold text-gray-700">
-            ${formatDate(target)}
+        reviewList.innerHTML += `
+          <div class="flex items-center justify-between bg-white border border-gray-100 rounded-2xl p-5 hover:border-blue-300 hover:shadow-md transition-all group">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center font-black ${item.color} border border-gray-100">
+                ${item.step}
+              </div>
+              <div>
+                <div class="${item.color} font-black text-xs uppercase tracking-wider">${item.step}차 복습 주기</div>
+                <div class="font-bold text-lg text-gray-500 group-hover:text-gray-800 transition-colors">${item.days}일 전 학습분</div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="font-black text-xl text-gray-800 tracking-tight">${formatDate(target)}</div>
+              <div class="text-[10px] text-gray-300 font-bold mt-0.5">REVIEW TARGET</div>
+            </div>
           </div>
-        </div>
-      `
-    })
+        `;
+      });
+    }
+
+    // 날짜 변경 이벤트 리스너
+    datePicker.addEventListener('change', updateReviewDates);
+    
+    // 초기 로드 시 실행
+    updateReviewDates();
   </script>
 
 </body>
